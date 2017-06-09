@@ -5,8 +5,7 @@ int main() {
 	pid_t processo;
 	for (int i = 0; i < 99; i++){
 		processo = fork();
-		if (processo == 0)
-		{
+		if (processo == 0) {
 			break;
 		}
 	}

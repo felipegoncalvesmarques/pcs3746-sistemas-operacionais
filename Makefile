@@ -9,9 +9,15 @@ clean:
 		rm -rf build
 		find -name '*.o' -delete
 
-build/rootfs.gz: build/initramfs_root/init
+build/rootfs.gz: build/initramfs_root/init build/initramfs_root/conta build/initramfs_root/inOut
 		cd build/initramfs_root ; \
 		find -type f -printf '%P\n' | cpio -o -H newc > ../rootfs.gz
 
 build/initramfs_root/init: init.o
+		$(CC) -o $@ $^
+
+build/initramfs_root/conta: conta.o
+		$(CC) -o $@ $^
+
+build/initramfs_root/inOut: inOut.o
 		$(CC) -o $@ $^

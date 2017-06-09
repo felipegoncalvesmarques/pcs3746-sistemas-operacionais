@@ -1,16 +1,12 @@
 #include <stdio.h>
 #include <sched.h>
+#include <errno.h>
 #include "inic.h"
 
 void childProcess(void);
 void parentProcess(void);
 
 int main() {
-	inic(10);
-
-	pid_t increment;
-	
-	increment = fork();
 
 	struct sched_param param = { .sched_priority = 1 };
 
@@ -19,36 +15,30 @@ int main() {
 	printf("Default scheduler: %d (SCHED_NORMAL) from process pid: %d \n", sched_getscheduler(pid), pid);
 	sched_setscheduler(pid, SCHED_RR, &param);
 	printf("New scheduler: %d (SCHED_RR) from process pid: %d \n", sched_getscheduler(pid), pid);
+	pid_t processo;
 
-	// for (int i = 1; i <= 99; i++) {
-	// 	int pid = fork();
-	// 	if (pid == 0) {
-	// 		exec("somaNumeros.c");
-	// 	}
-	// }
-	// pid = fork();
-	// if (pid == 0) {
-	// 	exec("inOut.c");
-	// }
-	
-	for(;;) {
-		if (increment != 0)  { // This is the parent and should decrement
-			parentProcess();
-		} else { // This is the child and should increment
-			childProcess();
+	for (int i = 0; i < 1; i++){
+		processo = fork();
+		if (processo == 0) {
+			break;
 		}
 	}
-}
 
-
-void  parentProcess(void)
-{
-	printf("Decrement: %d, pid: %d, Scheduler: %d(SCHED_RR) \n", dec(), getpid(), sched_getscheduler(getpid()));
-	sleep(10);
-}
-
-void  childProcess(void)
-{
-	printf("Increment: %d, pid: %d, Scheduler: %d(SCHED_RR) \n", inc(), getpid(), sched_getscheduler(getpid()));
-	sleep(5);
+	if (processo == 0){
+		printf("filho\n");
+		int error = execl("./conta", "conta", "", (char*) NULL);
+		if (error == -1) {
+			printf("An error occured! %s\n", strerror(errno);
+		} 
+	} else {
+		processo = fork();
+		if (processo == 0) {
+			int error2 = execl("./inOut", "inOut", "", (char*) NULL);
+			if (error2 == 1) {
+				printf("An error occured %s\n", strerror(errno));
+			}
+		} else {
+			wait(processo);
+		}
+	}
 }
