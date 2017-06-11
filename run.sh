@@ -13,7 +13,7 @@ INITRAMFS_VOLUME="$PWD:/home/student/src/initramfs"
 VOLUMES="-v $LINUX_VOLUME -v $INITRAMFS_VOLUME"
 
 BUILD_COMMAND="docker build -t so ./docker"
-DEFAULT_COMMAND="docker run $VOLUMES so"
+DEFAULT_COMMAND="docker run -ti $VOLUMES so"
 DEBUG_COMMAND="docker exec -ti $(docker ps -q) bash"
 INTERACTIVE_COMMAND="docker run -it $VOLUMES so bash"
 
