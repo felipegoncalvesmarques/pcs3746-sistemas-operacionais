@@ -1,10 +1,6 @@
 #include <stdio.h>
 #include <sched.h>
 #include <errno.h>
-#include "inic.h"
-
-void childProcess(void);
-void parentProcess(void);
 
 int main() {
 
@@ -13,11 +9,11 @@ int main() {
 	pid_t pid = getpid();
 
 	printf("Default scheduler: %d (SCHED_NORMAL) from process pid: %d \n", sched_getscheduler(pid), pid);
-	// // sched_setscheduler(pid, SCHED_RR, &param);
-	// printf("New scheduler: %d (SCHED_RR) from process pid: %d \n", sched_getscheduler(pid), pid);
+	sched_setscheduler(pid, SCHED_RR, &param);
+	printf("New scheduler: %d (SCHED_RR) from process pid: %d \n", sched_getscheduler(pid), pid);
 	pid_t processo;
 
-	for (int i = 0; i < 1; i++){
+	for (int i = 0; i < 200; i++){
 		processo = fork();
 		if (processo == 0) {
 			break;
@@ -42,3 +38,4 @@ int main() {
 		}
 	}
 }
+

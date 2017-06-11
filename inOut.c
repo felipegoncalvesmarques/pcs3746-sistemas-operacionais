@@ -6,12 +6,24 @@
 #include <ctype.h>
 #include <errno.h>
 #include <time.h>
+#include <sched.h>
+
 
 int main(void)
 {
     struct termios  canonical_terminal, raw_terminal;
     int c;
     int n = 0;
+
+
+	struct sched_param param = { .sched_priority = 1 };
+
+	pid_t pid = getpid();
+
+	printf("Default scheduler: %d (SCHED_NORMAL) from process pid: %d \n", sched_getscheduler(pid), pid);
+	sched_setscheduler(pid, SCHED_RR, &param);
+	printf("New scheduler: %d (SCHED_RR) from process pid: %d \n", sched_getscheduler(pid), pid);
+	
     //Para receber e imprimir dados do teclado enquanto uma tecla estiver apertada deve-se entrar no modo raw do terminal
 
     //Pega as configurações atuais do terminal
