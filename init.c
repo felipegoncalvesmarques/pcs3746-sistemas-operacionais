@@ -13,8 +13,8 @@ int main() {
 	pid_t pid = getpid();
 
 	printf("Default scheduler: %d (SCHED_NORMAL) from process pid: %d \n", sched_getscheduler(pid), pid);
-	sched_setscheduler(pid, SCHED_RR, &param);
-	printf("New scheduler: %d (SCHED_RR) from process pid: %d \n", sched_getscheduler(pid), pid);
+	// // sched_setscheduler(pid, SCHED_RR, &param);
+	// printf("New scheduler: %d (SCHED_RR) from process pid: %d \n", sched_getscheduler(pid), pid);
 	pid_t processo;
 
 	for (int i = 0; i < 1; i++){
@@ -28,7 +28,7 @@ int main() {
 		printf("filho\n");
 		int error = execl("./conta", "conta", "", (char*) NULL);
 		if (error == -1) {
-			printf("An error occured! %s\n", strerror(errno);
+			printf("An error occured! %s\n", strerror(errno));
 		} 
 	} else {
 		processo = fork();
