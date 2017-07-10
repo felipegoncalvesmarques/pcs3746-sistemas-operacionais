@@ -25,8 +25,9 @@ SRC=/home/student/src
 if ! cd $SRC/initramfs ; then
     fail "Mount a volume with initramfs source files under $SRC/initramfs"
 fi
+make clean
 make ARCH=arm CROSS_COMPILE=arm-linux-gnueabi-
 
 # QEMU Running
 BOOT=$SRC/linux/arch/arm/boot
-qemu-system-arm -M versatilepb -m 128M -nographic -kernel $BOOT/zImage -dtb $BOOT/dts/versatile-pb.dtb -initrd build/rootfs.gz -append "root=/dev/ram"
+qemu-system-arm -s -S -M versatilepb -m 128M -nographic -kernel $BOOT/zImage -dtb $BOOT/dts/versatile-pb.dtb -initrd build/rootfs.gz -append "root=/dev/ram"
